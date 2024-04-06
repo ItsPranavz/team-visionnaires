@@ -11,6 +11,7 @@ import ContactUs from './pages/ContactUs';
 import Products from './pages/Products';
 import Home from './pages/Home'
 import LoginForm from './pages/LoginForm';
+
 function App() {
   return (
     <>
@@ -27,6 +28,8 @@ function App() {
          
         </>
       </Router>
+      
+    
 
 
     </>

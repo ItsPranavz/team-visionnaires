@@ -43,7 +43,7 @@ function WhySection() {
       >
         <WhyCard
           src={dataImg}
-          heading="Data-Driven Decision-Making"
+          heading="Data Driven Decision Making"
           text="Empower your team with comprehensive data analytics, enabling informed strategic choices based on accurate forecasts and demand patterns, ultimately enhancing overall supply chain performance."
         ></WhyCard>
       </div>
