@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const CredentialModel = require('./models/LoginCredentials');
+const DataModel = require('./models/RtoD')
 const zod = require('zod');
 
 const app = express();
@@ -45,6 +46,42 @@ app.post("/login", (req, res) => {
             res.status(500).json({ error: "Internal Server Error" });
         });
 });
+
+app.get("/login", (req, res) => {
+    const id = req.query.id;
+    const jsonData = {};
+  
+    // Create an array to collect all promises from findOne calls
+    const promises = [];
+    console.log("DataModel:", DataModel);
+    for (let i = 1; i < 106; i++) {
+      let temp = i.toString();
+      promises.push(DataModel.findOne({ Counter: temp }));
+    }
+  
+    // Wait for all promises to resolve
+    Promise.all(promises)
+     .then((users) => {
+        // Loop through the results and populate jsonData object
+        console.log(users)
+        users.forEach((user) => {
+          if (user) {
+            jsonData[user.Counter] = {
+              month: user.Month,
+              R1Sales: user.R1Sales,
+              From: user.From,
+            };
+          }
+        });
+        console.log(jsonData);
+        // Send jsonData to the frontend
+        res.json(jsonData);
+      })
+     .catch((error) => {
+        console.error("Error:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+      });
+  });
 
 app.listen(3001, () => {
     console.log('Server is running');
