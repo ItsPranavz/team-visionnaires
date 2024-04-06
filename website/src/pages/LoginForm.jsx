@@ -20,7 +20,6 @@ const LoginForm = () => {
             console.log(result);
             if (result.data === 'Success') {
                 navigate('/dashboard'); // Use the navigate function to redirect to '/home'
-                // const JSONData = axios.get('http://localhost:3001/login', { params: {id}})
             }
         })
         .catch(err => {

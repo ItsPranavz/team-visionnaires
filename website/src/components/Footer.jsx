@@ -18,7 +18,7 @@ function Footer() {
                  Our Vision
               </h6>
               <p className='footer-text'>
-              We are aiming to build a Supply Chain Management Solution, which will help all the stakeholders of the Supply Chain to manage and access data of quantity ordered and how much to keep in buffer stock, in order to mitigate the impact of "BullWhip" effect.
+              We are aiming to build a Supply Chain Management Solution, which will help all the stakeholders of the Supply Chain to manage and access data of quantity ordered and how much to keep in buffer stock, in order to mitigate the impact of bullwhip effect.
               </p>
             </MDBCol>
 
