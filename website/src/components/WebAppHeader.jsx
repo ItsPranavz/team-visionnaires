@@ -19,9 +19,9 @@ function WebAppHeader(props) {
       <Tab eventKey="visualize" title={<span className="tab-title">Visualize</span>}>
         <Visualizer edges={props.edges}/>
       </Tab>
-      <Tab  eventKey="forecast" title={<span className="tab-title">Forecast</span>}>
+      {/* <Tab  eventKey="forecast" title={<span className="tab-title">Forecast</span>}>
         <BarChartAnalysis data={props.values}/>
-      </Tab>
+      </Tab> */}
       <Tab eventKey="data" title={<span className="tab-title">Data</span>} >
         <DataTable data={props.values}/>
       </Tab>
