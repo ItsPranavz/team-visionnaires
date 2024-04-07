@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const CredentialModel = require('./models/LoginCredentials');
 const DataModel = require('./models/RtoD')
 const ForecastModel = require('./models/forecasted');
+const UserModel = require('./models/userModel')
 const zod = require('zod');
 
 const app = express();
@@ -20,6 +21,12 @@ const validateInput = ({ id, password, role }) => {
     });
     return schema.safeParse({ id, password, role });
 };
+
+app.post('/contact', (req, res) =>{
+    UserModel.create(req.body)
+      .then(contacts=>res.json(contacts))
+      .catch(error=>res.json(err))
+})
 
 app.post("/login", (req, res) => {
     const { id, password, role } = req.body;
