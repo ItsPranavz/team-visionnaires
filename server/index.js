@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const CredentialModel = require('./models/LoginCredentials');
+const DataModel = require('./models/RtoD')
+const ForecastModel = require('./models/forecasted');
 const zod = require('zod');
 
 const app = express();
@@ -41,6 +43,65 @@ app.post("/login", (req, res) => {
             }
         })
         .catch(error => {
+            console.error("Error:", error);
+            res.status(500).json({ error: "Internal Server Error" });
+        });
+});
+
+app.get("/dashboard", (req, res) => {
+    const id = req.query.id;
+    const jsonFinal = {
+        currentData: {},
+        forecastData: {}
+    };
+
+    // Create an array to collect all promises from findOne calls for current data
+    const promises = [];
+    for (let i = 1; i < 106; i++) {
+        let temp = i.toString();
+        promises.push(DataModel.findOne({ Counter: temp }).catch(error => {
+            console.error("Error fetching document:", error);
+        }));
+    }
+
+    // Create an array to collect all promises from findOne calls for forecast data
+    const promisesForecast = [];
+    for (let i = 1; i < 13; i++) {
+        let temp = i.toString();
+        promisesForecast.push(ForecastModel.findOne({ Counter: temp }).catch(error => {
+            console.error("Error fetching document:", error);
+        }));
+    }
+
+    // Wait for both sets of promises to resolve
+    Promise.all([Promise.all(promises), Promise.all(promisesForecast)])
+        .then(([currentUsers, forecastUsers]) => {
+            // Populate currentData object
+            currentUsers.forEach((user) => {
+                if (user) {
+                    jsonFinal.currentData[user.Counter] = {
+                        month: user.Month,
+                        R1Sales: user.R1Sales,
+                        From: user.From,
+                    };
+                }
+            });
+
+            // Populate forecastData object
+            forecastUsers.forEach((user) => {
+                if (user) {
+                    jsonFinal.forecastData[user.Counter] = {
+                        month: user.Month,
+                        Forecast: user.Forecast,
+                        From: user.From,
+                    };
+                }
+            });
+
+            // Send jsonFinal to the frontend
+            res.json(jsonFinal);
+        })
+        .catch((error) => {
             console.error("Error:", error);
             res.status(500).json({ error: "Internal Server Error" });
         });
