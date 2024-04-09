@@ -13,12 +13,12 @@ function DataTable(props) {
             </thead>
             <tbody>
                 {
-                    props.data.currentData.map((obj, index) => {
+                    props.data.map((obj) => {
                         return (
                             <tr>
                                 <td>{obj.month}</td>
-                                <td>{obj.R1Sales}</td>
-                                <td>{obj.From}</td>
+                                <td>{obj.quantity}</td>
+                                <td>{obj.from}</td>
                             </tr>
                         );
                     })
